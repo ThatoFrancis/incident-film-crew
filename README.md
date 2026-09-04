@@ -10,15 +10,14 @@ the **Grafana MCP server** at runtime:
 
 | Agent | Role |
 |---|---|
-| 🎬 **Director** | Orchestrates the crew, talks to the user, produces the final cut |
-| 🕵️ **Detective** | Queries Grafana metrics (Prometheus), logs (Loki), dashboards & alerts via MCP tools to find the root cause |
+| 🎬 **Director** | Orchestrates the crew, talks to the user, produces the final cut || 🕵️ **Detective** | Queries Grafana metrics (Prometheus), logs (Loki), dashboards & alerts via MCP tools to find the root cause |
 | ✍️ **Screenwriter** | Turns raw findings into a structured incident report (timeline, blast radius, root cause) |
 | 🔧 **Stunt Coordinator** | Proposes concrete remediations and follow-up alert rules |
 
 ## Architecture
 
 ```
-User ──▶ Director (LlmAgent, gemini-2.5-flash)
+User ──▶ Director (LlmAgent, gemini-3.6-flash)
               │ delegates
               ├──▶ Detective ──▶ Grafana MCP server ──▶ Grafana Cloud
               ├──▶ Screenwriter

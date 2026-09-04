@@ -15,7 +15,7 @@ from mcp import StdioServerParameters
 
 load_dotenv()
 
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.6-flash"
 
 
 def grafana_toolset() -> McpToolset:
