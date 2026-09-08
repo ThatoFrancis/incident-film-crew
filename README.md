@@ -50,4 +50,4 @@ Open http://localhost:8000, pick `incident_film_crew`, and try:
 
 ## License
 
-MIT
+AGPL-3.0 — see [LICENSE](LICENSE). Commercial licensing available on request.
