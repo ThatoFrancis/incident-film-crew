@@ -132,27 +132,37 @@ def sample_logs(ts_s: float, sev: float) -> list[dict]:
     return streams
 
 
+def _post_with_retry(url: str, *, attempts: int = 4, **kwargs) -> None:
+    """POST with retries; transient network errors must not kill the seeder."""
+    for attempt in range(attempts):
+        try:
+            r = session.post(url, timeout=15, **kwargs)
+            r.raise_for_status()
+            return
+        except requests.exceptions.RequestException as e:
+            if attempt == attempts - 1:
+                print(f"push failed after {attempts} attempts: {e}", flush=True)
+                return
+            time.sleep(2**attempt)
+
+
 def push_metrics(lines: list[str]) -> None:
-    r = session.post(
+    _post_with_retry(
         METRICS_URL,
         data="\n".join(lines),
         auth=(METRICS_USER, TOKEN),
         headers={"Content-Type": "text/plain"},
-        timeout=15,
     )
-    r.raise_for_status()
 
 
 def push_logs(streams: list[dict]) -> None:
     if not streams:
         return
-    r = session.post(
+    _post_with_retry(
         LOGS_URL,
         json={"streams": streams},
         auth=(LOGS_USER, TOKEN),
-        timeout=15,
     )
-    r.raise_for_status()
 
 
 def main() -> None:
