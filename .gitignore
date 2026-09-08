@@ -5,3 +5,5 @@ __pycache__/
 venv/
 bin/
 .adk/
+e2e_output.txt
+e2e_err.txt
