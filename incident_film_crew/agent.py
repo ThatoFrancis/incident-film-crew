@@ -9,8 +9,7 @@ import os
 
 from dotenv import load_dotenv
 from google.adk.agents import LlmAgent
-from google.adk.tools.mcp_tool import McpToolset
-from google.adk.tools.mcp_tool import StdioConnectionParams
+from google.adk.tools.mcp_tool import McpToolset, StdioConnectionParams
 from mcp import StdioServerParameters
 
 load_dotenv()
@@ -19,27 +18,27 @@ MODEL = "gemini-3.6-flash"
 
 
 def grafana_toolset() -> McpToolset:
-  """Official Grafana MCP server (grafana/mcp-grafana) over stdio.
+    """Official Grafana MCP server (grafana/mcp-grafana) over stdio.
 
-  Requires the `mcp-grafana` binary on PATH, or set MCP_GRAFANA_CMD.
-  Exposes 60+ tools: Prometheus/Loki queries, dashboard search, alert
-  rules, incidents, on-call, and more.
-  """
-  return McpToolset(
-      connection_params=StdioConnectionParams(
-          server_params=StdioServerParameters(
-              command=os.environ.get("MCP_GRAFANA_CMD", "mcp-grafana"),
-              args=[],
-              env={
-                  "GRAFANA_URL": os.environ.get("GRAFANA_URL", ""),
-                  "GRAFANA_SERVICE_ACCOUNT_TOKEN": os.environ.get(
-                      "GRAFANA_SERVICE_ACCOUNT_TOKEN", ""
-                  ),
-              },
-          ),
-          timeout=30,
-      ),
-  )
+    Requires the `mcp-grafana` binary on PATH, or set MCP_GRAFANA_CMD.
+    Exposes 60+ tools: Prometheus/Loki queries, dashboard search, alert
+    rules, incidents, on-call, and more.
+    """
+    return McpToolset(
+        connection_params=StdioConnectionParams(
+            server_params=StdioServerParameters(
+                command=os.environ.get("MCP_GRAFANA_CMD", "mcp-grafana"),
+                args=[],
+                env={
+                    "GRAFANA_URL": os.environ.get("GRAFANA_URL", ""),
+                    "GRAFANA_SERVICE_ACCOUNT_TOKEN": os.environ.get(
+                        "GRAFANA_SERVICE_ACCOUNT_TOKEN", ""
+                    ),
+                },
+            ),
+            timeout=30,
+        ),
+    )
 
 
 detective = LlmAgent(
