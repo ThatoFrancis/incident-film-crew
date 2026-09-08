@@ -121,8 +121,10 @@ def sample_logs(ts_s: float, sev: float) -> list[dict]:
                 "values": [
                     [
                         str(ns),
-                        f"playback failure title=meridian_falls code=MEDIA_ERR_NETWORK "
-                        f"affected_sessions={int(200 * sev)}",
+                        (
+                            "playback failure title=meridian_falls "
+                            f"code=MEDIA_ERR_NETWORK affected_sessions={int(200 * sev)}"
+                        ),
                     ]
                 ],
             }

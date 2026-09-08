@@ -11,12 +11,24 @@ import os
 
 from dotenv import load_dotenv
 from google.adk.agents import LlmAgent, SequentialAgent
+from google.adk.models.google_llm import Gemini
 from google.adk.tools.mcp_tool import McpToolset, StdioConnectionParams
+from google.genai import types
 from mcp import StdioServerParameters
 
 load_dotenv()
 
-MODEL = "gemini-3.6-flash"
+# Retry with backoff so free-tier rate limits (e.g. 5 req/min) degrade the
+# pipeline to slow instead of failing it.
+MODEL = Gemini(
+    model=os.environ.get("GEMINI_MODEL", "gemini-3.5-flash"),
+    retry_options=types.HttpRetryOptions(
+        attempts=6,
+        initial_delay=15,
+        max_delay=70,
+        exp_base=1.6,
+    ),
+)
 
 
 def grafana_toolset() -> McpToolset:
