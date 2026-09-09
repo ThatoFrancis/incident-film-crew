@@ -1,0 +1,8 @@
+.git
+.env
+bin/
+__pycache__/
+*.pyc
+e2e_output.txt
+e2e_err.txt
+.adk/
